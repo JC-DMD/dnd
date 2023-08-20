@@ -22,22 +22,36 @@
             display: grid;
             grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr auto;  
             grid-template-rows: 15% 75% 15%;
+            grid-template-areas:
+                ". . . . . . ."
+                "d20 d12 d10 d8 d6 d4 ."
+                ". . . . . . .";
             grid-gap: 10px;
             position: fixed;
             height: 15%;
             bottom: 0;
             width: 100%; 
-            height: 15%; 
             background-color: #444654;
             padding: 5px;
         }
+        
+        .buttonRow {
+            display: contents; /* This allows the buttons to be placed directly on the grid */
+        }
+        
+        .button[data-dice-sides="20"] { grid-area: d20; }
+        .button[data-dice-sides="12"] { grid-area: d12; }
+        .button[data-dice-sides="10"] { grid-area: d10; }
+        .button[data-dice-sides="8"] { grid-area: d8; }
+        .button[data-dice-sides="6"] { grid-area: d6; }
+        .button[data-dice-sides="4"] { grid-area: d4; }
+        
         .button {
             padding: 10px;
             background-color: #ccc;
             border: none;
             cursor: pointer;
         }
-        
     </style>
 </head>
 <body>
