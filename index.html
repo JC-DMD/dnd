@@ -121,5 +121,34 @@
         </div>
     </div>
 </div>
+<script>
+    // Get all the buttons with the class "button"
+    const buttons = document.querySelectorAll('.button');
+
+    // Add a click event listener to each button
+    buttons.forEach(button => {
+        button.addEventListener('click', function() {
+            // Retrieve the dice sides and count from the button's data attributes
+            const sides = parseInt(this.getAttribute('data-dice-sides'));
+            const count = parseInt(this.getAttribute('data-dice-count'));
+
+            // Roll the dice by generating a random number between 1 and the dice sides
+            const rollResult = rollDice(sides, count);
+
+            // Display the result in the corresponding result div
+            const resultDiv = document.getElementById(`result-d${sides}`);
+            resultDiv.innerHTML = `Result: ${rollResult}`;
+        });
+    });
+
+    // Function to roll the dice
+    function rollDice(sides, count) {
+        let total = 0;
+        for (let i = 0; i < count; i++) {
+            total += Math.floor(Math.random() * sides) + 1;
+        }
+        return total;
+    }
+</script>
 </body>
 </html>
