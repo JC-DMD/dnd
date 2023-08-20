@@ -35,7 +35,6 @@
                 "d20 d12 d10 d8 d6 d4 ."
                 ". . . . . . .";
             grid-gap: 0.1%;
-            position: fixed;
             height: 15%;
             bottom: 0;
             width: 100%; 
@@ -47,12 +46,41 @@
             display: contents; /* This allows the buttons to be placed directly on the grid */
         }
         
-        .button[data-dice-sides="20"] { grid-area: d20; }
-        .button[data-dice-sides="12"] { grid-area: d12; }
-        .button[data-dice-sides="10"] { grid-area: d10; }
-        .button[data-dice-sides="8"] { grid-area: d8; }
-        .button[data-dice-sides="6"] { grid-area: d6; }
-        .button[data-dice-sides="4"] { grid-area: d4; }
+        .button[data-dice-sides="20"] {
+            grid-area: d20;
+            background: url('dnd/d20.png') no-repeat center center;
+            background-size: contain;
+        }
+        
+        .button[data-dice-sides="12"] {
+            grid-area: d12;
+            background: url('dnd/d12.png') no-repeat center center;
+            background-size: contain;
+        }
+        
+        .button[data-dice-sides="10"] {
+            grid-area: d10;
+            background: url('dnd/d10.png') no-repeat center center;
+            background-size: contain;
+        }
+        
+        .button[data-dice-sides="8"] {
+            grid-area: d8;
+            background: url('dnd/d8.png') no-repeat center center;
+            background-size: contain;
+        }
+        
+        .button[data-dice-sides="6"] {
+            grid-area: d6;
+            background: url('dnd/d6.png') no-repeat center center;
+            background-size: contain;
+        }
+        
+        .button[data-dice-sides="4"] {
+            grid-area: d4;
+            background: url('dnd/d4.png') no-repeat center center;
+            background-size: contain;
+        }
         
         .button {
             padding: 10px;
@@ -60,6 +88,7 @@
             border: none;
             cursor: pointer;
         }
+      
     </style>
 </head>
 <body>
