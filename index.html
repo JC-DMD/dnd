@@ -157,14 +157,11 @@
         return total;
     }
 
-    const container = document.getElementById('container');
-    console.log(container); // Check if the container element is being selected properly
-    container.addEventListener('click', function(e) {
+    document.body.addEventListener('click', function(e) {
         if (!e.target.classList.contains('button') && !e.target.closest('#toolbar')) {
             clearResults();
         }
     }, true);
-
     
     // Function to clear the results
     function clearResults() {
