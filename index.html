@@ -187,8 +187,8 @@ function renderPage(pageNumber) {
 
     // Create a new canvas element for each page
     const canvas = document.createElement('canvas');
-    canvas.style.width = viewport.width / scale + "px"; // Scale down the CSS size to match the rendering scale
-    canvas.style.height = viewport.height / scale + "px";
+    canvas.style.width = viewport.width + "px"; // No division by scale
+    canvas.style.height = viewport.height + "px"; // No division by scale
     canvas.width = viewport.width; // Actual rendering size
     canvas.height = viewport.height;
     document.getElementById('pdf-container').appendChild(canvas);
@@ -198,8 +198,6 @@ function renderPage(pageNumber) {
     page.render(renderContext);
   });
 }
-
-
 
 function updateZoomInput() {
   let zoomInput = document.getElementById('zoom-input');
