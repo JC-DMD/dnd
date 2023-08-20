@@ -108,7 +108,7 @@
 </head>
 <body>
 <div id="container">
-    <embed src="Characters%20(shorted).pdf#toolbar=0" type="application/pdf">
+    <embed id="embeddedArea" src="Characters%20(shorted).pdf#toolbar=0" type="application/pdf">
     <div id="toolbar">
         <div class="buttonRow">
             <button class="button" data-dice-sides="20" data-dice-count="1"></button>
@@ -119,12 +119,12 @@
             <button class="button" data-dice-sides="4" data-dice-count="1"></button>
         </div>
         <div class="resultRow">
-            <div id="result-d20"></div>
-            <div id="result-d12"></div>
-            <div id="result-d10"></div>
-            <div id="result-d8"></div>
-            <div id="result-d6"></div>
-            <div id="result-d4"></div>
+            <div id="result-d20" class="result"></div>
+            <div id="result-d12" class="result"></div>
+            <div id="result-d10" class="result"></div>
+            <div id="result-d8" class="result"></div>
+            <div id="result-d6" class="result"></div>
+            <div id="result-d4" class="result"></div>
         </div> 
     </div>
 </div>
@@ -156,13 +156,10 @@
         }
         return total;
     }
-    // Event listener for the body to clear the results when clicked outside the toolbar
-    document.body.addEventListener('click', function(e) {
-        // Check if the clicked target is not a button or inside the toolbar
-        if (!e.target.classList.contains('button') && !e.target.closest('#toolbar')) {
-            clearResults();
-        }
-    }, true);
+
+    document.getElementById('embeddedArea').addEventListener('click', function() {
+        clearResults();
+    });
 
     // Function to clear the results
     function clearResults() {
