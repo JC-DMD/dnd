@@ -163,8 +163,6 @@
 let pdfDoc = null;
 let pageNum = 1; // Start at the first page
 let scale = 1.0; // Initial scale
-const canvas = document.getElementById('pdf-canvas');
-const context = canvas.getContext('2d');
 
 // Load and render the PDF using PDF.js
 pdfjsLib.getDocument('Characters%20(shorted).pdf').promise.then(pdfDocument => {
