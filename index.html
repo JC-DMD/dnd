@@ -26,6 +26,15 @@
             overflow: hidden; 
         }
         
+        #pdfOverlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }    
+
         #toolbar {
             display: grid;
             grid-template-columns: 13% 13% 13% 13% 13% 13% 1fr;
@@ -108,6 +117,7 @@
 </head>
 <body>
 <div id="container">
+    <div id="pdfOverlay"></div>
     <embed id="embeddedArea" src="Characters%20(shorted).pdf#toolbar=0" type="application/pdf">
     <div id="toolbar">
         <div class="buttonRow">
@@ -157,10 +167,10 @@
         return total;
     }
 
-    document.getElementById('embeddedArea').addEventListener('click', function() {
+    document.getElementById('pdfOverlay').addEventListener('click', function() {
         clearResults();
     });
-
+    
     // Function to clear the results
     function clearResults() {
         const resultDivs = document.querySelectorAll('div[id^="result-"]');
