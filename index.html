@@ -186,7 +186,7 @@ function renderPage(pageNumber) {
     const canvas = document.createElement('canvas');
     canvas.width = viewport.width;
     canvas.height = viewport.height;
-    document.getElementById('pdf-container'').appendChild(canvas);
+    document.getElementById('pdf-container').appendChild(canvas);
 
     const context = canvas.getContext('2d');
     const renderContext = { canvasContext: context, viewport };
@@ -194,12 +194,6 @@ function renderPage(pageNumber) {
   });
 }
 
-
-// Listen for zoom changes
-document.getElementById('zoom-input').addEventListener('input', function(e) {
-  scale = e.target.value / 100; // Convert from percentage to a scale factor
-  renderPage(pageNum); // Re-render the current page with the new scale
-});
 
 // Listen for zoom changes
 document.getElementById('zoom-input').addEventListener('input', function(e) {
