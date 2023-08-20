@@ -169,11 +169,11 @@
         return total;
     }
 
-    document.getElementById('embeddedArea').addEventListener('click', function(e) {
+    document.getElementById('embedWrapper').addEventListener('click', function(e) {
         clearResults();
     }, true);
-    
-    // Function to clear the results
+
+        // Function to clear the results
     function clearResults() {
         const resultDivs = document.querySelectorAll('div[id^="result-"]');
         resultDivs.forEach(div => {
