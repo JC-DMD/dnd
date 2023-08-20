@@ -173,7 +173,8 @@ pdfjsLib.getDocument('Characters%20(shorted).pdf').promise.then(pdfDocument => {
 });
 
 function renderAllPages() {
-  for (let pageNum = 1; pageNum <= pdfDoc.numPages; pageNum++) {
+  document.getElementById('pdf-container').innerHTML = '';
+    for (let pageNum = 1; pageNum <= pdfDoc.numPages; pageNum++) {
     renderPage(pageNum);
   }
 }
@@ -194,11 +195,9 @@ function renderPage(pageNumber) {
   });
 }
 
-
-// Listen for zoom changes
 document.getElementById('zoom-input').addEventListener('input', function(e) {
   scale = e.target.value / 100; // Convert from percentage to a scale factor
-  renderPage(pageNum); // Re-render the current page with the new scale
+  renderAllPages(); // Re-render all pages with the new scale
 });
 
     // Get all the buttons with the class "button"
