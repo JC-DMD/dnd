@@ -200,13 +200,13 @@ function renderPage(pageNumber) {
 }
 
 
-// Function to update the zoom input box value
+
 function updateZoomInput() {
   let zoomInput = document.getElementById('zoom-input');
-  zoomInput.value = (scale * 100).toFixed(0); // Assuming scale of 1 is 100%
+  zoomInput.value = (scale * 100).toFixed(0);
 }
 
-// Event listener for wheel event
+
 window.addEventListener('wheel', function(event) {
   if (event.ctrlKey) {
     event.preventDefault();
@@ -215,10 +215,11 @@ window.addEventListener('wheel', function(event) {
     } else {
       scale *= 0.9;
     }
-    updateZoomInput(); // Update the zoom input box value
+    updateZoomInput(); 
     renderAllPages();
   }
-});
+}, { passive: false }); 
+
 
 // Event listener for zoom input
 let zoomInput = document.getElementById('zoom-input');
