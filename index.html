@@ -278,6 +278,13 @@ scrollContainer.addEventListener('mousemove', (e) => {
     scrollContainer.scrollLeft = scrollLeft - walkX;
     scrollContainer.scrollTop = scrollTop - walkY;
 });
+    
+scrollContainer.addEventListener('wheel', function(event) {
+  if (!event.ctrlKey) { // Only scroll if the control key is not pressed (avoiding zoom)
+    event.preventDefault();
+    scrollContainer.scrollTop += event.deltaY;
+  }
+}, { passive: false });
 
     // Get all the buttons with the class "button"
     const buttons = document.querySelectorAll('.button');
