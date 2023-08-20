@@ -200,11 +200,40 @@ function renderPage(pageNumber) {
   });
 }
 
+// Function to update the zoom input box value
+function updateZoomInput() {
+  let zoomInput = document.getElementById('zoom-input');
+  zoomInput.value = (scale * 100).toFixed(0); // Assuming scale of 1 is 100%
+}
 
-document.getElementById('zoom-input').addEventListener('input', function(e) {
-  scale = e.target.value / 100; // Convert from percentage to a scale factor
-  renderAllPages(); // Re-render all pages with the new scale
+// Event listener for wheel event
+window.addEventListener('wheel', function(event) {
+  if (event.ctrlKey) {
+    event.preventDefault();
+    if (event.deltaY < 0) {
+      scale *= 1.1;
+    } else {
+      scale *= 0.9;
+    }
+    updateZoomInput(); // Update the zoom input box value
+    renderAllPages();
+  }
 });
+
+// Event listener for zoom input
+let zoomInput = document.getElementById('zoom-input');
+let debounceTimer;
+
+zoomInput.addEventListener('input', function() {
+  clearTimeout(debounceTimer);
+  debounceTimer = setTimeout(function() {
+    scale = parseFloat(zoomInput.value) / 100; // Update scale from input value
+    renderAllPages();
+  }, 500);
+});
+
+// Initialize zoom input box value
+updateZoomInput();
 
     // Get all the buttons with the class "button"
     const buttons = document.querySelectorAll('.button');
