@@ -183,6 +183,12 @@ document.getElementById('zoom-input').addEventListener('input', function(e) {
   renderPage(pageNum); // Re-render the current page with the new scale
 });
 
+// Listen for zoom changes
+document.getElementById('zoom-input').addEventListener('input', function(e) {
+  scale = e.target.value / 100; // Convert from percentage to a scale factor
+  renderPage(pageNum); // Re-render the current page with the new scale
+});
+
     // Get all the buttons with the class "button"
     const buttons = document.querySelectorAll('.button');
 
@@ -215,13 +221,6 @@ document.getElementById('zoom-input').addEventListener('input', function(e) {
         if (e.key === 'Escape') {
             clearResults();
         }
-    });
-
-    const pdfViewer = document.getElementById('embeddedArea');
-
-    document.getElementById('zoom-input').addEventListener('input', function(e) {
-        const zoomLevel = e.target.value;
-        pdfViewer.style.zoom = zoomLevel + '%'; // Apply the zoom style to the embedded PDF
     });
 
     function clearResults() {
