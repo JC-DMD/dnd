@@ -183,12 +183,13 @@ function renderAllPages() {
 
 function renderPage(pageNumber) {
   pdfDoc.getPage(pageNumber).then(page => {
-    const viewport = page.getViewport({ scale }); // Using the global scale variable
+    const renderingScale = 2; // Render at 2x DPI
+    const viewport = page.getViewport({ scale: scale * renderingScale }); // Use a higher scale for rendering
 
     // Create a new canvas element for each page
     const canvas = document.createElement('canvas');
-    canvas.style.width = viewport.width + "px"; // No division by scale
-    canvas.style.height = viewport.height + "px"; // No division by scale
+    canvas.style.width = viewport.width / renderingScale + "px"; // Scale down for display
+    canvas.style.height = viewport.height / renderingScale + "px"; // Scale down for display
     canvas.width = viewport.width; // Actual rendering size
     canvas.height = viewport.height;
     document.getElementById('pdf-container').appendChild(canvas);
