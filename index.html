@@ -25,6 +25,10 @@
             width: 100%;
             overflow: hidden; 
         }
+        
+        #embedWrapper {
+            flex-grow: 1; 
+        }
 
         #toolbar {
             display: grid;
@@ -108,7 +112,10 @@
 </head>
 <body>
 <div id="container">
-    <embed id="embeddedArea" src="Characters%20(shorted).pdf#toolbar=0" type="application/pdf">
+    <div id="embedWrapper">
+        <embed id="embeddedArea" src="Characters%20(shorted).pdf#toolbar=0" type="application/pdf">
+    </div>
+    
     <div id="toolbar">
         <div class="buttonRow">
             <button class="button" data-dice-sides="20" data-dice-count="1"></button>
@@ -157,10 +164,8 @@
         return total;
     }
 
-    document.body.addEventListener('click', function(e) {
-        if (!e.target.classList.contains('button') && !e.target.closest('#toolbar')) {
-            clearResults();
-        }
+    document.getElementById('embedWrapper').addEventListener('click', function(e) {
+        clearResults();
     }, true);
     
     // Function to clear the results
