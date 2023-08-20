@@ -187,16 +187,13 @@
         }
     });
 
-    // Assuming the PDF is displayed in an iframe or object with id="pdf-viewer"
-    const pdfViewer = document.getElementById('pdf-viewer');
+    const pdfViewer = document.getElementById('embeddedArea');
 
-    // Add event listener to the input field to handle zoom level change
     document.getElementById('zoom-input').addEventListener('input', function(e) {
-      const zoomLevel = e.target.value;
-      pdfViewer.style.zoom = zoomLevel + '%';
+        const zoomLevel = e.target.value;
+        pdfViewer.style.zoom = zoomLevel + '%'; // Apply the zoom style to the embedded PDF
     });
 
-        // Function to clear the results
     function clearResults() {
         const resultDivs = document.querySelectorAll('div[id^="result-"]');
         resultDivs.forEach(div => {
