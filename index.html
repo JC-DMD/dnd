@@ -169,9 +169,10 @@
             background-color: #000000;
             color: #ffffff;
             align-items: center;
-            height: -webkit-calc(100% / var(--page-count));
-            font-size: -webkit-calc(50% * calc(100% / var(--page-count)));
+            height: calc(100% / var(--page-count));
+            font-size: min(calc(250% / var(--page-count)), 10px);
         }
+        
         @keyframes die-roll {
             0% {
                 transform: rotate(-40deg) translateY(-50px) translateX(-55%);
