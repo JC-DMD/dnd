@@ -158,17 +158,19 @@
 
         #page-buttons-cell {
             grid-area: pb; 
+            display: flex;
+            Flex-direction: column;
         }
 
         .page-button {
             display: flex;
             width: 95%;
-            height: 25%;
-            font-size: 8pt;
             font-family: verdana;
             background-color: #000000;
             color: #ffffff;
             align-items: center;
+            height: -webkit-calc(100% / var(--page-count));
+            font-size: -webkit-calc(50% * calc(100% / var(--page-count)));
         }
         @keyframes die-roll {
             0% {
@@ -245,7 +247,8 @@ let scale = 1.0; // Initial scale
 pdfjsLib.getDocument('Characters%20(shorted).pdf').promise.then(pdfDocument => {
   pdfDoc = pdfDocument;
   const pageButtonsCell = document.getElementById('page-buttons-cell');
-
+    pageButtonsCell.style.setProperty('--page-count', pdfDoc.numPages);
+    
   for (let i = 1; i <= pdfDoc.numPages; i++) {
     const button = document.createElement('button');
     button.textContent = `Page ${i}`;
