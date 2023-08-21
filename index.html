@@ -49,7 +49,7 @@
             grid-template-rows: 1% 70% 29%;
             grid-template-areas:
                 ". . . . . . ."
-                "d20 d12 d10 d8 d6 d4 ."
+                "d20 d12 d10 d8 d6 d4 pb"
                 "r20 r12 r10 r8 r6 r4 zoom";
             height: 15%;
             width: 100%; 
@@ -145,6 +145,7 @@
         }
 
         .page-button {
+            grid-area: pb; 
             width: 100%; /* Make the buttons as wide as the cell */
             /* Additional styling for the buttons as needed */
         }
