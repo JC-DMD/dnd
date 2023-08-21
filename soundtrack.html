@@ -96,11 +96,10 @@
             player.setVolume(value);
         }
 
-        function toggleHide(iframe, checked) {
-            iframe.style.width = checked ? '0' : '';
-            iframe.style.height = checked ? '0' : '';
+        function toggleLoop(iframe, index, checked) {
+            const player = players[index];
+            player.setLoop(checked ? 1 : 0);
         }
-
         function createToolbar(iframe, index, title) {
             const toolbar = document.createElement('div');
             toolbar.className = 'toolbar';
@@ -132,14 +131,14 @@
             volumeControl.oninput = () => setVolume(iframe, volumeControl.value, index);
             toolbar.appendChild(volumeControl);
 
-            const hideCheckbox = document.createElement('input');
-            hideCheckbox.type = 'checkbox';
-            hideCheckbox.onchange = () => toggleHide(iframe, hideCheckbox.checked);
-            toolbar.appendChild(hideCheckbox);
+            const loopCheckbox = document.createElement('input');
+            loopCheckbox.type = 'checkbox';
+            loopCheckbox.onchange = () => toggleLoop(iframe, index, loopCheckbox.checked);
+            toolbar.appendChild(loopCheckbox);
 
-            const hideLabel = document.createElement('label');
-            hideLabel.textContent = 'Hide Video';
-            toolbar.appendChild(hideLabel);
+            const loopLabel = document.createElement('label');
+            loopLabel.textContent = 'Loop Video';
+            toolbar.appendChild(loopLabel);
 
             return toolbar;
         }
