@@ -382,6 +382,9 @@ scrollContainer.addEventListener('wheel', function(event) {
 
             // Display the result in the corresponding result div
             const resultDiv = document.getElementById(`result-d${sides}`);
+            resultDiv.classList.remove('result');
+            void resultDiv.offsetWidth;
+            resultDiv.classList.add('result');
             resultDiv.innerHTML = `${rollResult}`;
         });
     });
