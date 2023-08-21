@@ -214,8 +214,7 @@ function updateZoomInput() {
   let zoomInput = document.getElementById('zoom-input');
   zoomInput.value = (scale * 100).toFixed(0);
 }
-
-
+    
 window.addEventListener('wheel', function(event) {
   if (event.ctrlKey) {
     event.preventDefault();
@@ -228,7 +227,6 @@ window.addEventListener('wheel', function(event) {
     renderAllPages();
   }
 }, { passive: false }); 
-
 
 // Event listener for zoom input
 let zoomInput = document.getElementById('zoom-input');
@@ -256,6 +254,7 @@ scrollContainer.addEventListener('mousedown', (e) => {
     scrollLeft = scrollContainer.scrollLeft;
     scrollTop = scrollContainer.scrollTop;
     scrollContainer.classList.add('grabbing');
+    clearResults();
 });
 
 scrollContainer.addEventListener('mouseleave', () => {
