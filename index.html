@@ -209,11 +209,25 @@ pdfjsLib.getDocument('Characters%20(shorted).pdf').promise.then(pdfDocument => {
     button.textContent = `Page ${i}`;
     button.dataset.pageNumber = i;
     button.className = 'page-button'; // Optional class for styling
+    button.addEventListener('click', function(event) { // Adding event listener here
+      if (event.ctrlKey) {
+        // If Ctrl key is pressed, prompt for a new name
+        const newName = prompt('Enter the new name for this button:', this.textContent);
+        if (newName !== null) {
+          this.textContent = newName;
+        }
+      } else {
+        // Otherwise, jump to the corresponding page
+        const pageNumber = parseInt(this.dataset.pageNumber);
+        jumpToPage(pageNumber);
+      }
+    });
     pageButtonsCell.appendChild(button);
   }
 
   renderAllPages();
 });
+
 
 function renderAllPages() {
   document.getElementById('pdf-container').innerHTML = '';
@@ -356,22 +370,18 @@ scrollContainer.addEventListener('wheel', function(event) {
             div.innerHTML = '';
         });
     }
-const pageButtons = pageButtonsCell.querySelectorAll('.page-button');
-pageButtons.forEach(button => {
-  button.addEventListener('click', function(event) {
-    if (event.ctrlKey) {
-      // If Ctrl key is pressed, prompt for a new name
-      const newName = prompt('Enter the new name for this button:', this.textContent);
-      if (newName !== null) {
-        this.textContent = newName;
-      }
-    } else {
-      // Otherwise, jump to the corresponding page
-      const pageNumber = parseInt(this.dataset.pageNumber);
-      jumpToPage(pageNumber);
-    }
-  });
-});
+
+function jumpToPage(pageNumber) {
+  const container = document.getElementById('pdf-container');
+  const pageElements = container.querySelectorAll('canvas');
+  const targetPage = pageElements[pageNumber - 1];
+
+  if (targetPage) {
+    const topPosition = targetPage.offsetTop;
+    container.scrollTop = topPosition;
+  }
+}
+
 </script>
 </body>
 </html>
