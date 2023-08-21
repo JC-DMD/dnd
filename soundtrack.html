@@ -35,6 +35,10 @@
         input[type="checkbox"] {
             margin-right: 5px;
         }
+        .video-title {
+            cursor: pointer;
+            margin-right: 5px;
+        }
     </style>
 </head>
 <body>
@@ -48,31 +52,30 @@
 
         function addVideo() {
             const videoURL = document.getElementById('videoURL').value;
-            const videoID = getVideoID(videoURL);
-            if (videoID) {
-                const videoContainer = document.getElementById('videoContainer');
-                const videoWrapper = document.createElement('div');
-                videoWrapper.className = 'video-wrapper';
+            const videoTitle = `Video ${players.length + 1}`;
 
-                const iframe = document.createElement('iframe');
-                iframe.className = 'video';
-                iframe.src = `https://www.youtube.com/embed/${videoID}?enablejsapi=1`;
-                iframe.allow = 'autoplay';
+            const videoContainer = document.getElementById('videoContainer');
+            const videoWrapper = document.createElement('div');
+            videoWrapper.className = 'video-wrapper';
 
-                const player = new YT.Player(iframe, {
-                    events: {
-                        onReady: (event) => {
-                            players.push(event.target); // Add player object to array
-                        },
+            const iframe = document.createElement('iframe');
+            iframe.className = 'video';
+            iframe.src = `https://www.youtube.com/embed/${getVideoID(videoURL)}?enablejsapi=1`;
+            iframe.allow = 'autoplay';
+
+            const player = new YT.Player(iframe, {
+                events: {
+                    onReady: (event) => {
+                        players.push(event.target); // Add player object to array
                     },
-                });
+                },
+            });
 
-                const toolbar = createToolbar(iframe, players.length);
+            const toolbar = createToolbar(iframe, players.length, videoTitle);
 
-                videoWrapper.appendChild(iframe);
-                videoWrapper.appendChild(toolbar);
-                videoContainer.appendChild(videoWrapper);
-            }
+            videoWrapper.appendChild(iframe);
+            videoWrapper.appendChild(toolbar);
+            videoContainer.appendChild(videoWrapper);
         }
 
         function getVideoID(url) {
@@ -98,9 +101,23 @@
             iframe.style.height = checked ? '0' : '';
         }
 
-        function createToolbar(iframe, index) {
+        function createToolbar(iframe, index, title) {
             const toolbar = document.createElement('div');
             toolbar.className = 'toolbar';
+
+            const videoTitle = document.createElement('span');
+            videoTitle.className = 'video-title';
+            videoTitle.textContent = title;
+            videoTitle.onclick = (event) => {
+                if (event.ctrlKey) {
+                    videoTitle.contentEditable = true;
+                    videoTitle.focus();
+                }
+            };
+            videoTitle.onblur = () => {
+                videoTitle.contentEditable = false;
+            };
+            toolbar.appendChild(videoTitle);
 
             const playPauseBtn = document.createElement('button');
             playPauseBtn.textContent = 'Play';
