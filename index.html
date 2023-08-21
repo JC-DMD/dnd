@@ -246,41 +246,34 @@ let pageNum = 1; // Start at the first page
 let scale = 1.0; // Initial scale
 
 pdfjsLib.getDocument('Characters%20(shorted).pdf').promise.then(pdfDocument => {
-    pdfDoc = pdfDocument;
-    const pageButtonsCell = document.getElementById('page-buttons-cell');
+  pdfDoc = pdfDocument;
+  const pageButtonsCell = document.getElementById('page-buttons-cell');
     pageButtonsCell.style.setProperty('--page-count', pdfDoc.numPages);
+    
+  for (let i = 1; i <= pdfDoc.numPages; i++) {
+    const button = document.createElement('button');
+    button.textContent = `Page ${i}`;
+    button.dataset.pageNumber = i;
+    button.className = 'page-button'; // Optional class for styling
+    button.addEventListener('click', function(event) { // Adding event listener here
+      if (event.ctrlKey) {
+        // If Ctrl key is pressed, prompt for a new name
+        const newName = prompt('Enter the new name for this button:', this.textContent);
+        if (newName !== null) {
+          this.textContent = newName;
+        }
+      } else {
+        // Otherwise, jump to the corresponding page
+        const pageNumber = parseInt(this.dataset.pageNumber);
+        jumpToPage(pageNumber);
+      }
+    });
+    pageButtonsCell.appendChild(button);
+  }
 
-    for(let i = 1; i <= pdfDoc.numPages; i++) {
-        const button = document.createElement('button');
-        button.textContent = `Page ${i}`;
-        button.dataset.pageNumber = i;
-        button.className = 'page-button'; // Optional class for styling
-        button.addEventListener('click', function(event) { // Adding event listener here
-            if(event.ctrlKey) {
-                button.contentEditable = true;
-                button.focus();
-            } else {
-                const pageNumber = parseInt(this.dataset.pageNumber);
-                jumpToPage(pageNumber);
-            }
-        });
-        button.addEventListener('keydown', function(event) { // Handling spacebar keydown event
-            if (this.contentEditable === "true" && event.keyCode === 32) {
-                event.preventDefault();
-                const selection = window.getSelection();// Get the current selection
-                const range = selection.getRangeAt(0);
-                const space = document.createTextNode(' ');// Create a text node containing a space character
-                range.insertNode(space);// Insert the space at the current cursor position
-                range.setStartAfter(space);// Move the cursor after the newly inserted space
-                range.setEndAfter(space);
-                selection.removeAllRanges();
-                selection.addRange(range);
-            }
-        });
-        pageButtonsCell.appendChild(button);
-    }
-    renderAllPages();
+  renderAllPages();
 });
+
 
 function renderAllPages() {
   document.getElementById('pdf-container').innerHTML = '';
@@ -437,7 +430,6 @@ function jumpToPage(pageNumber) {
     container.parentNode.scrollTop = topPosition; // Scroll the parent container
   }
 }
-
 
 </script>
 </body>
