@@ -83,7 +83,8 @@ function addVideo() {
             },
         },
     });
-
+    loopStatus.push(false); // Initialize loop status as false
+    
     iframe.src = `https://www.youtube.com/embed/${getVideoID(videoURL)}?enablejsapi=1&playlist=${getVideoID(videoURL)}&loop=1`;
     iframe.allow = 'autoplay';
 }
@@ -106,10 +107,20 @@ function addVideo() {
             player.setVolume(value);
         }
 
-        function toggleLoop(iframe, index, checked) {
-            const player = players[index];
-            player.setLoop(checked ? 1 : 0);
-        }
+function toggleLoop(index, checked) {
+    loopStatus[index] = checked; // Set loop status based on checkbox state
+
+    const player = players[index];
+    const videoID = player.getVideoData().video_id;
+    player.loadVideoById({
+        videoId: videoID,
+        playerVars: {
+            loop: checked ? 1 : 0,
+            playlist: checked ? videoID : '',
+        },
+    });
+}
+
         function createToolbar(iframe, index, title) {
             const toolbar = document.createElement('div');
             toolbar.className = 'toolbar';
@@ -143,7 +154,7 @@ function addVideo() {
 
             const loopCheckbox = document.createElement('input');
             loopCheckbox.type = 'checkbox';
-            loopCheckbox.onchange = () => toggleLoop(index, loopCheckbox.checked);
+            loopCheckbox.onchange = () => toggleLoop(index, loopCheckbox.checked); // Pass index and checkbox state
             toolbar.appendChild(loopCheckbox);
 
             const loopLabel = document.createElement('label');
