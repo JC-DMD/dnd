@@ -246,33 +246,33 @@ let pageNum = 1; // Start at the first page
 let scale = 1.0; // Initial scale
 
 pdfjsLib.getDocument('Characters%20(shorted).pdf').promise.then(pdfDocument => {
-  pdfDoc = pdfDocument;
-  const pageButtonsCell = document.getElementById('page-buttons-cell');
+    pdfDoc = pdfDocument;
+    const pageButtonsCell = document.getElementById('page-buttons-cell');
     pageButtonsCell.style.setProperty('--page-count', pdfDoc.numPages);
 
-}
-for (let i = 1; i <= pdfDoc.numPages; i++) {
-  const button = document.createElement('button');
-  button.textContent = `Page ${i}`;
-  button.dataset.pageNumber = i;
-  button.className = 'page-button'; // Optional class for styling
-  button.addEventListener('click', function(event) { // Adding event listener here
-      if (event.ctrlKey) {
-          button.contentEditable = true;
-          button.focus();
-      }
-      else {
-          const pageNumber = parseInt(this.dataset.pageNumber);
-          jumpToPage(pageNumber);
-      }
-  });
-  button.addEventListener('keydown', function(event) { // Handling spacebar keydown event
-      if (this.contentEditable === "true" && event.keyCode === 32) {
-          event.preventDefault();
-          this.textContent += ' '; // Add space to the content
-      }
-  });
-  pageButtonsCell.appendChild(button);
+    for(let i = 1; i <= pdfDoc.numPages; i++) {
+        const button = document.createElement('button');
+        button.textContent = `Page ${i}`;
+        button.dataset.pageNumber = i;
+        button.className = 'page-button'; // Optional class for styling
+        button.addEventListener('click', function(event) { // Adding event listener here
+            if(event.ctrlKey) {
+                button.contentEditable = true;
+                button.focus();
+            } else {
+                const pageNumber = parseInt(this.dataset.pageNumber);
+                jumpToPage(pageNumber);
+            }
+        });
+        button.addEventListener('keydown', function(event) { // Handling spacebar keydown event
+            if(this.contentEditable === "true" && event.keyCode === 32) {
+                event.preventDefault();
+                this.textContent += ' '; // Add space to the content
+            }
+        });
+        pageButtonsCell.appendChild(button);
+    }
+    renderAllPages();
 });
 
 function renderAllPages() {
@@ -281,7 +281,6 @@ function renderAllPages() {
     renderPage(pageNum);
   }
 }
-    
 
 function renderPage(pageNumber) {
   pdfDoc.getPage(pageNumber).then(page => {
