@@ -159,6 +159,8 @@
             height: 25%;
             font-size: 8pt;
             font-family: verdana;
+            background-color: #000000;
+            color: #ffffff;
         }
 
     </style>
@@ -377,10 +379,11 @@ function jumpToPage(pageNumber) {
   const targetPage = pageElements[pageNumber - 1];
 
   if (targetPage) {
-    const topPosition = targetPage.offsetTop;
-    container.scrollTop = topPosition;
+    const topPosition = targetPage.offsetTop - container.offsetTop;
+    container.parentNode.scrollTop = topPosition; // Scroll the parent container
   }
 }
+
 
 </script>
 </body>
