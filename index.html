@@ -126,9 +126,18 @@
         #zoom-input {
             grid-area: zoom;
             width: 20%;
+            height: fit-content;
             max-width: 50px;
             min-width: fit-content;
+            font-size: 7pt;
         }
+
+        #zoom-cell {
+            display: flex;      
+            justify-content: flex-end;
+            height: 100%;         
+        }
+        
         #scroll-container {
             position: relative;
             overflow: hidden;
@@ -349,9 +358,18 @@ scrollContainer.addEventListener('wheel', function(event) {
     }
 const pageButtons = pageButtonsCell.querySelectorAll('.page-button');
 pageButtons.forEach(button => {
-  button.addEventListener('click', function() {
-    const pageNumber = parseInt(this.dataset.pageNumber);
-    jumpToPage(pageNumber);
+  button.addEventListener('click', function(event) {
+    if (event.ctrlKey) {
+      // If Ctrl key is pressed, prompt for a new name
+      const newName = prompt('Enter the new name for this button:', this.textContent);
+      if (newName !== null) {
+        this.textContent = newName;
+      }
+    } else {
+      // Otherwise, jump to the corresponding page
+      const pageNumber = parseInt(this.dataset.pageNumber);
+      jumpToPage(pageNumber);
+    }
   });
 });
 </script>
