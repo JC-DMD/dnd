@@ -248,32 +248,29 @@ let scale = 1.0; // Initial scale
 pdfjsLib.getDocument('Characters%20(shorted).pdf').promise.then(pdfDocument => {
   pdfDoc = pdfDocument;
   const pageButtonsCell = document.getElementById('page-buttons-cell');
-    pageButtonsCell.style.setProperty('--page-count', pdfDoc.numPages);
+  pageButtonsCell.style.setProperty('--page-count', pdfDoc.numPages);
     
   for (let i = 1; i <= pdfDoc.numPages; i++) {
     const button = document.createElement('button');
     button.textContent = `Page ${i}`;
     button.dataset.pageNumber = i;
     button.className = 'page-button'; // Optional class for styling
-    button.addEventListener('click', function(event) { // Adding event listener here
-      if (event.ctrlKey) {
-        // If Ctrl key is pressed, prompt for a new name
-        const newName = prompt('Enter the new name for this button:', this.textContent);
-        if (newName !== null) {
-          this.textContent = newName;
-        }
-      } else {
-        // Otherwise, jump to the corresponding page
-        const pageNumber = parseInt(this.dataset.pageNumber);
-        jumpToPage(pageNumber);
+    // Adding click event listener for jumping to the corresponding page
+    button.addEventListener('click', function(event) {
+      const pageNumber = parseInt(this.dataset.pageNumber);
+      jumpToPage(pageNumber);
+    });
+    // Adding double-click event listener for renaming the button
+    button.addEventListener('dblclick', function() {
+      const newName = prompt('Enter the new name for this button:', this.textContent);
+      if (newName !== null) {
+        this.textContent = newName;
       }
     });
     pageButtonsCell.appendChild(button);
   }
-
   renderAllPages();
 });
-
 
 function renderAllPages() {
   document.getElementById('pdf-container').innerHTML = '';
