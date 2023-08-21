@@ -265,9 +265,16 @@ pdfjsLib.getDocument('Characters%20(shorted).pdf').promise.then(pdfDocument => {
             }
         });
         button.addEventListener('keydown', function(event) { // Handling spacebar keydown event
-            if(this.contentEditable === "true" && event.keyCode === 32) {
+            if (this.contentEditable === "true" && event.keyCode === 32) {
                 event.preventDefault();
-                this.textContent += ' '; // Add space to the content
+                const selection = window.getSelection();// Get the current selection
+                const range = selection.getRangeAt(0);
+                const space = document.createTextNode(' ');// Create a text node containing a space character
+                range.insertNode(space);// Insert the space at the current cursor position
+                range.setStartAfter(space);// Move the cursor after the newly inserted space
+                range.setEndAfter(space);
+                selection.removeAllRanges();
+                selection.addRange(range);
             }
         });
         pageButtonsCell.appendChild(button);
