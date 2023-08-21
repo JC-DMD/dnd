@@ -140,6 +140,15 @@
             cursor: grabbing;
         }
 
+        #page-buttons-cell {
+            /* Style the cell as needed */
+        }
+
+        .page-button {
+            width: 100%; /* Make the buttons as wide as the cell */
+            /* Additional styling for the buttons as needed */
+        }
+
     </style>
 </head>
 <body>
@@ -159,6 +168,7 @@
             <button class="button" data-dice-sides="8" data-dice-count="1"></button>
             <button class="button" data-dice-sides="6" data-dice-count="1"></button>
             <button class="button" data-dice-sides="4" data-dice-count="1"></button>
+            <div id="page-buttons-cell"></div>
         </div>
         <div class="resultRow">
             <div id="result-d20" class="result"></div>
@@ -178,9 +188,18 @@ let pdfDoc = null;
 let pageNum = 1; // Start at the first page
 let scale = 1.0; // Initial scale
 
-// Load and render the PDF using PDF.js
 pdfjsLib.getDocument('Characters%20(shorted).pdf').promise.then(pdfDocument => {
   pdfDoc = pdfDocument;
+  const pageButtonsCell = document.getElementById('page-buttons-cell');
+
+  for (let i = 1; i <= pdfDoc.numPages; i++) {
+    const button = document.createElement('button');
+    button.textContent = `Page ${i}`;
+    button.dataset.pageNumber = i;
+    button.className = 'page-button'; // Optional class for styling
+    pageButtonsCell.appendChild(button);
+  }
+
   renderAllPages();
 });
 
@@ -325,6 +344,13 @@ scrollContainer.addEventListener('wheel', function(event) {
             div.innerHTML = '';
         });
     }
+const pageButtons = pageButtonsCell.querySelectorAll('.page-button');
+pageButtons.forEach(button => {
+  button.addEventListener('click', function() {
+    const pageNumber = parseInt(this.dataset.pageNumber);
+    jumpToPage(pageNumber);
+  });
+});
 </script>
 </body>
 </html>
