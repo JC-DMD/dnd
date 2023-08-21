@@ -55,7 +55,14 @@
 
         
 function addVideo() {
+    console.log('Adding video...'); // Debug log to indicate the start of the function
+
     const videoURL = document.getElementById('videoURL').value;
+    console.log('Video URL:', videoURL); // Log the video URL
+
+    const videoID = getVideoID(videoURL);
+    console.log('Video ID:', videoID); // Log the video ID
+
     const videoTitle = `Video ${players.length + 1}`;
 
     const videoContainer = document.getElementById('videoContainer');
@@ -65,10 +72,14 @@ function addVideo() {
     const iframe = document.createElement('iframe');
     iframe.className = 'video';
 
+    console.log('Creating YT player...'); // Debug log before YT.Player creation
+
     const player = new YT.Player(iframe, {
         events: {
             onReady: (event) => {
-                players.push(event.target); // Add player object to array
+                console.log('Player Ready'); // Log when the player is ready
+                players.push(event.target);
+                loopStatus.push(false);
 
                 // Create toolbar after pushing the player object
                 const toolbar = createToolbar(iframe, players.length - 1, videoTitle);
@@ -82,12 +93,10 @@ function addVideo() {
             },
         },
     });
-    loopStatus.push(false); // Initialize loop status as false
-    
+
     iframe.src = `https://www.youtube.com/embed/${getVideoID(videoURL)}?enablejsapi=1&playlist=${getVideoID(videoURL)}&loop=1`;
     iframe.allow = 'autoplay';
 }
-
         function getVideoID(url) {
             const regex = /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/ ]{11})/;
             const match = url.match(regex);
