@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Session Soundtrack</title>
+    <style>
+        .video-input {
+            margin-bottom: 10px;
+        }
+        .video-container {
+            width: 0;
+            height: 0;
+            overflow: hidden;
+        }
+        .video-wrapper {
+            position: relative;
+            margin-bottom: 10px;
+        }
+        .video {
+            width: 0;
+            height: 0;
+        }
+        .toolbar {
+            display: flex;
+            align-items: center;
+        }
+        button {
+            margin-right: 5px;
+        }
+        input[type="range"] {
+            width: 100px;
+            margin-right: 5px;
+        }
+        input[type="checkbox"] {
+            margin-right: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="video-input">
+        <input type="text" id="videoURL" placeholder="Enter YouTube video URL">
+        <button onclick="addVideo()">Add Video</button>
+    </div>
+    <div id="videoContainer"></div>
+    <script>
+        function addVideo() {
+            const videoURL = document.getElementById('videoURL').value;
+            const videoID = getVideoID(videoURL);
+            if (videoID) {
+                const videoContainer = document.getElementById('videoContainer');
+                const videoWrapper = document.createElement('div');
+                videoWrapper.className = 'video-wrapper';
+
+                const iframe = document.createElement('iframe');
+                iframe.className = 'video';
+                iframe.src = `https://www.youtube.com/embed/${videoID}?enablejsapi=1`;
+                iframe.allow = 'autoplay';
+
+                const toolbar = createToolbar(iframe);
+
+                videoWrapper.appendChild(iframe);
+                videoWrapper.appendChild(toolbar);
+                videoContainer.appendChild(videoWrapper);
+            }
+        }
+
+        function getVideoID(url) {
+            const regex = /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/ ]{11})/;
+            const match = url.match(regex);
+            return match ? match[1] : null;
+        }
+
+        function createToolbar(iframe) {
+            const toolbar = document.createElement('div');
+            toolbar.className = 'toolbar';
+
+            const playPauseBtn = document.createElement('button');
+            playPauseBtn.textContent = 'Play';
+            playPauseBtn.onclick = () => togglePlayPause(iframe, playPauseBtn);
+            toolbar.appendChild(playPauseBtn);
+
+            const volumeControl = document.createElement('input');
+            volumeControl.type = 'range';
+            volumeControl.min = '0';
+            volumeControl.max = '100';
+            volumeControl.value = '100';
+            volumeControl.oninput = () => setVolume(iframe, volumeControl.value);
+            toolbar.appendChild(volumeControl);
+
+            const hideCheckbox = document.createElement('input');
+            hideCheckbox.type = 'checkbox';
+            hideCheckbox.onchange = () => toggleHide(iframe, hideCheckbox.checked);
+            toolbar.appendChild(hideCheckbox);
+
+            const hideLabel = document.createElement('label');
+            hideLabel.textContent = 'Hide Video';
+            toolbar.appendChild(hideLabel);
+
+            return toolbar;
+        }
+
+        function togglePlayPause(iframe, button) {
+            const player = new YT.Player(iframe, {
+                events: {
+                    onReady: (event) => {
+                        const playing = event.target.getPlayerState() !== YT.PlayerState.PLAYING;
+                        playing ? event.target.playVideo() : event.target.pauseVideo();
+                        button.textContent = playing ? 'Pause' : 'Play';
+                    },
+                },
+            });
+        }
+
+        function setVolume(iframe, value) {
+            const player = new YT.Player(iframe, {
+                events: {
+                    onReady: (event) => {
+                        event.target.setVolume(value);
+                    },
+                },
+            });
+        }
+
+        function toggleHide(iframe, checked) {
+            iframe.style.width = checked ? '0' : '';
+            iframe.style.height = checked ? '0' : '';
+        }
+    </script>
+    <script src="https://www.youtube.com/iframe_api"></script>
+</body>
+</html>
