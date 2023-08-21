@@ -56,6 +56,10 @@
             background-color: #444654;
             padding: 3px;
             flex-shrink: 0;
+            border-color: black;
+            border-width: 1.5px;
+            border-style: solid;
+            box-sizing: border-box;
         }
         
         .button {
@@ -150,6 +154,7 @@
             overflow: hidden;
             height: 100%;
             cursor: grab;
+            overflow-y: scroll;
         }
 
         #scroll-container.grabbing {
@@ -164,7 +169,7 @@
 
         .page-button {
             display: flex;
-            width: 95%;
+            width: 100%;
             font-family: verdana;
             background-color: #000000;
             color: #ffffff;
