@@ -51,7 +51,9 @@
     </div>
     <div id="videoContainer"></div>
     <script>
-        const players = []; // Array to hold YouTube player objects
+        const players = [];
+        const loopStatus = []; // Declare loopStatus array
+
         
 function addVideo() {
     const videoURL = document.getElementById('videoURL').value;
