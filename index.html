@@ -249,7 +249,8 @@ pdfjsLib.getDocument('Characters%20(shorted).pdf').promise.then(pdfDocument => {
   pdfDoc = pdfDocument;
   const pageButtonsCell = document.getElementById('page-buttons-cell');
     pageButtonsCell.style.setProperty('--page-count', pdfDoc.numPages);
-    
+
+}
 for (let i = 1; i <= pdfDoc.numPages; i++) {
   const button = document.createElement('button');
   button.textContent = `Page ${i}`;
@@ -280,6 +281,7 @@ function renderAllPages() {
     renderPage(pageNum);
   }
 }
+    
 
 function renderPage(pageNumber) {
   pdfDoc.getPage(pageNumber).then(page => {
