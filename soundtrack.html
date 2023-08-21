@@ -49,10 +49,10 @@
     <div id="videoContainer"></div>
     <script>
         const players = []; // Array to hold YouTube player objects
-        const loopStatus = [];
         
         function addVideo() {
             const videoURL = document.getElementById('videoURL').value;
+            const videoID = getVideoID(videoURL);
             const videoTitle = `Video ${players.length + 1}`;
 
             const videoContainer = document.getElementById('videoContainer');
@@ -61,21 +61,20 @@
 
             const iframe = document.createElement('iframe');
             iframe.className = 'video';
-            iframe.src = `https://www.youtube.com/embed/${getVideoID(videoURL)}?enablejsapi=1`;
             iframe.allow = 'autoplay';
 
             const player = new YT.Player(iframe, {
+                playerVars: {
+                    loop: 1,
+                    playlist: videoID, // Set playlist to the same video ID for looping
+                },
+                videoId: videoID, // Video ID to play
                 events: {
                     onReady: (event) => {
                         players.push(event.target);
                     },
-                    onStateChange: (event) => {
-                        handleStateChange(event, index);
-                    },
                 },
             });
-
-            loopStatus.push(false); // Initialize loop status as false
 
             const toolbar = createToolbar(iframe, players.length, videoTitle);
 
@@ -83,7 +82,6 @@
             videoWrapper.appendChild(toolbar);
             videoContainer.appendChild(videoWrapper);
         }
-
         function getVideoID(url) {
             const regex = /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/ ]{11})/;
             const match = url.match(regex);
@@ -150,10 +148,18 @@
         }
 
         function toggleLoop(index, checked) {
-            loopStatus[index] = checked;
+            const player = players[index];
+            const videoID = player.getVideoData().video_id;
+            player.loadVideoById({
+                videoId: videoID,
+                playerVars: {
+                    loop: checked ? 1 : 0,
+                    playlist: checked ? videoID : '',
+                },
+            });
         }
 
-        function handleStateChange(event, index) {
+        function handleStateChange(event, index) { // Receive index parameter
             if (event.data === YT.PlayerState.ENDED && loopStatus[index]) {
                 event.target.playVideo();
             }
