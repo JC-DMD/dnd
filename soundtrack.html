@@ -119,7 +119,7 @@ function toggleLoop(index, checked) {
         },
     });
 }
-
+        
         function createToolbar(iframe, index, title) {
             const toolbar = document.createElement('div');
             toolbar.className = 'toolbar';
@@ -161,18 +161,6 @@ function toggleLoop(index, checked) {
             toolbar.appendChild(loopLabel);
 
             return toolbar;
-        }
-
-        function toggleLoop(index, checked) {
-            const player = players[index];
-            const videoID = player.getVideoData().video_id;
-            player.loadVideoById({
-                videoId: videoID,
-                playerVars: {
-                    loop: checked ? 1 : 0,
-                    playlist: checked ? videoID : '',
-                },
-            });
         }
 
         function handleStateChange(event, index) { // Receive index parameter
