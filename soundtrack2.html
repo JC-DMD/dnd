@@ -235,9 +235,6 @@
             volumeControl.value = '100';
             volumeControl.oninput = () => setVolume(iframe, volumeControl.value, index);
             toolbar.appendChild(volumeControl);
-
-            const virtualVolumes = []; // Array to hold virtual volume levels
-            let previousMasterVolume = 100; // Initial master volume
             
             const loopCheckbox = document.createElement('input');
             loopCheckbox.type = 'checkbox';
