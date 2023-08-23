@@ -67,6 +67,23 @@
                 events: {
                     onReady: (event) => {
                         players.push(event.target); // Add player object to array
+            
+                        // Get the duration of the video
+                        const duration = event.target.getDuration();
+                        console.log(`Video duration: ${duration} seconds`);
+            
+                        // Get the player state
+                        const playerState = event.target.getPlayerState();
+                        console.log(`Player state: ${playerState}`);
+            
+                        // Get the current time of the video
+                        const currentTime = event.target.getCurrentTime();
+                        console.log(`Current time: ${currentTime} seconds`);
+            
+                        // Get video data (note: this method is undocumented and may change)
+                        const videoData = event.target.getVideoData();
+                        console.log(`Video title: ${videoData.title}`);
+                        console.log(`Video author: ${videoData.author}`);
                     },
                     onStateChange: (event) => {
                         if (event.data === YT.PlayerState.ENDED) {
