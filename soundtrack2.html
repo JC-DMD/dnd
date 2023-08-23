@@ -91,9 +91,15 @@
                         const index = players.indexOf(event.target);
                         const button = document.querySelectorAll('.video-wrapper button')[index];
                         if (event.data === YT.PlayerState.ENDED) {
-                            // Code to execute when the video ends
                             console.log("Video has ended!");
-                            button.textContent = 'Play';
+                            
+                            // Check if looping is enabled for this video (you can implement this logic)
+                            if (shouldLoop(index)) {
+                                // Restart the video
+                                event.target.playVideo();
+                            } else {
+                                button.textContent = 'Play';
+                            }
                         } else if (event.data === YT.PlayerState.PLAYING) {
                             button.textContent = 'Pause';
                         } else if (event.data === YT.PlayerState.PAUSED) {
@@ -128,10 +134,11 @@
             const player = players[index];
             player.setVolume(value);
         }
-
-        function toggleHide(iframe, checked) {
-            iframe.style.width = checked ? '0' : '';
-            iframe.style.height = checked ? '0' : '';
+        
+        function shouldLoop(index) {
+            // Example: Check a checkbox associated with the video
+            const loopCheckbox = document.querySelectorAll('.video-wrapper input[type="checkbox"]')[index];
+            return loopCheckbox.checked;
         }
 
         function createToolbar(iframe, index, title) {
@@ -165,14 +172,13 @@
             volumeControl.oninput = () => setVolume(iframe, volumeControl.value, index);
             toolbar.appendChild(volumeControl);
 
-            const hideCheckbox = document.createElement('input');
-            hideCheckbox.type = 'checkbox';
-            hideCheckbox.onchange = () => toggleHide(iframe, hideCheckbox.checked);
-            toolbar.appendChild(hideCheckbox);
-
-            const hideLabel = document.createElement('label');
-            hideLabel.textContent = 'Hide Video';
-            toolbar.appendChild(hideLabel);
+            const loopCheckbox = document.createElement('input');
+            loopCheckbox.type = 'checkbox';
+            toolbar.appendChild(loopCheckbox);
+            
+            const loopLabel = document.createElement('label');
+            loopLabel.textContent = 'Loop';
+            toolbar.appendChild(loopLabel);
 
             return toolbar;
         }
