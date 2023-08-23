@@ -49,6 +49,10 @@
     <div class="video-input">
         <input type="text" id="videoURL" placeholder="Enter YouTube video URL" onclick="this.select()">
         <button id="addVideoButton" onclick="addVideo()">Add Video</button>
+        <div class="master-volume-control">
+            <label for="masterVolume">Master Volume:</label>
+            <input type="range" id="masterVolume" min="0" max="100" value="100">
+        </div>
     </div>
     <div id="videoContainer"></div>
     <script>
@@ -123,6 +127,17 @@
             videoWrapper.appendChild(iframe);
             videoWrapper.appendChild(toolbar);
             videoContainer.appendChild(videoWrapper);
+        }
+        
+        function setMasterVolume(value) {
+            // Iterate through all players and set their volume
+            players.forEach((player, index) => {
+                player.setVolume(value);
+        
+                // Update individual volume sliders
+                const individualVolumeSlider = document.querySelectorAll('.video-wrapper input[type="range"]')[index];
+                individualVolumeSlider.value = value;
+            });
         }
 
         function getVideoID(url) {
@@ -204,6 +219,8 @@
             volumeControl.oninput = () => setVolume(iframe, volumeControl.value, index);
             toolbar.appendChild(volumeControl);
 
+
+            
             const loopCheckbox = document.createElement('input');
             loopCheckbox.type = 'checkbox';
             toolbar.appendChild(loopCheckbox);
@@ -214,6 +231,10 @@
 
             return toolbar;
         }
+        
+        document.getElementById('masterVolume').addEventListener('input', (event) => {
+            setMasterVolume(event.target.value);
+        });
     </script>
     <script src="https://www.youtube.com/iframe_api"></script>
 </body>
