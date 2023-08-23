@@ -144,15 +144,26 @@
         function createToolbar(iframe, index, title) {
             const toolbar = document.createElement('div');
             toolbar.className = 'toolbar';
-
             const videoTitle = document.createElement('span');
             videoTitle.className = 'video-title';
             videoTitle.textContent = title;
-            videoTitle.onclick = (event) => {
-                if (event.ctrlKey) {
-                    videoTitle.contentEditable = true;
-                    videoTitle.focus();
-                }
+            const videoTitle = document.createElement('span');
+            videoTitle.className = 'video-title';
+            videoTitle.textContent = title;
+            videoTitle.ondblclick = (event) => {
+                videoTitle.contentEditable = true;
+                videoTitle.focus();
+            
+                // Create a range that selects the entire content of the videoTitle element
+                const range = document.createRange();
+                range.selectNodeContents(videoTitle);
+            
+                // Get the selection object and remove any existing ranges
+                const selection = window.getSelection();
+                selection.removeAllRanges();
+            
+                // Add the new range to the selection, effectively highlighting the content
+                selection.addRange(range);
             };
             videoTitle.onblur = () => {
                 videoTitle.contentEditable = false;
