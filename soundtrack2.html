@@ -123,8 +123,6 @@
                         }
                     },
                 },
-                const initialVolume = 100; // or any desired initial volume
-                virtualVolumes.push(initialVolume);
             });
 
             const toolbar = createToolbar(iframe, players.length, videoTitle);
@@ -132,6 +130,8 @@
             videoWrapper.appendChild(iframe);
             videoWrapper.appendChild(toolbar);
             videoContainer.appendChild(videoWrapper);
+            const initialVolume = 100; 
+            virtualVolumes.push(initialVolume);
         }
         
         function setMasterVolume(value) {
