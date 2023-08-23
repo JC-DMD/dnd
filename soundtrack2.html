@@ -162,6 +162,21 @@
                 // Add the new range to the selection, effectively highlighting the content
                 selection.addRange(range);
             };
+            
+            // Add a keydown event listener to prevent Enter key from creating a line break
+            videoTitle.addEventListener('keydown', (event) => {
+                if (event.key === 'Enter' && videoTitle.contentEditable === 'true') {
+                    // Prevent the default behavior of the Enter key
+                    event.preventDefault();
+            
+                    // Trigger a blur event, unfocusing the element
+                    videoTitle.blur();
+            
+                    // Optionally, set contentEditable to false to return to non-editable state
+                    videoTitle.contentEditable = false;
+                }
+            });
+
             videoTitle.onblur = () => {
                 videoTitle.contentEditable = false;
             };
