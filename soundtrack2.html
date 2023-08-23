@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Session Soundtrack</title>
+    <link rel="icon" href="/dnd/favicon.ico">
     <style>
         .video-input {
             margin-bottom: 10px;
@@ -86,13 +87,16 @@
                         console.log(`Video author: ${videoData.author}`);
                     },
                     onStateChange: (event) => {
+                        const index = players.indexOf(event.target);
+                        const button = document.querySelectorAll('.video-wrapper button')[index];
                         if (event.data === YT.PlayerState.ENDED) {
                             // Code to execute when the video ends
                             console.log("Video has ended!");
-                    
-                            // Update the play/pause button text for the video that has ended
-                            const button = document.querySelectorAll('.video-wrapper button')[players.indexOf(event.target)];
-                            togglePlayPause(iframe, button, players.indexOf(event.target), event);
+                            button.textContent = 'Play';
+                        } else if (event.data === YT.PlayerState.PLAYING) {
+                            button.textContent = 'Pause';
+                        } else if (event.data === YT.PlayerState.PAUSED) {
+                            button.textContent = 'Play';
                         }
                     },
                 },
@@ -111,9 +115,10 @@
             return match ? match[1] : null;
         }
 
-        function togglePlayPause(iframe, button, index, event) {
+        function togglePlayPause(index) {
             const player = players[index];
-            const playing = event ? event.data === YT.PlayerState.PLAYING : player.getPlayerState() === YT.PlayerState.PLAYING;
+            const button = document.querySelectorAll('.video-wrapper button')[index];
+            const playing = player.getPlayerState() === YT.PlayerState.PLAYING;
             playing ? player.pauseVideo() : player.playVideo();
             button.textContent = playing ? 'Pause' : 'Play';
         }
@@ -148,7 +153,7 @@
 
             const playPauseBtn = document.createElement('button');
             playPauseBtn.textContent = 'Play';
-            playPauseBtn.onclick = () => togglePlayPause(iframe, playPauseBtn, index);
+            playPauseBtn.onclick = () => togglePlayPause(index);
             toolbar.appendChild(playPauseBtn);
 
             const volumeControl = document.createElement('input');
