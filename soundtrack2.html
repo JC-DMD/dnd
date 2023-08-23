@@ -135,18 +135,15 @@
         }
         
         function setMasterVolume(masterValue) {
-            // Calculate the difference between the current and previous master volume
-            const volumeDifference = masterValue - previousMasterVolume;
-        
             // Update virtual volumes and actual volumes
             players.forEach((player, index) => {
-                const individualVolumeSlider = document.querySelectorAll('.video-wrapper input[type="range"]')[index];
-                const virtualVolume = virtualVolumes[index] + volumeDifference; // Apply the difference to the virtual volume
-                const actualVolume = Math.max(0, Math.min(100, virtualVolume)); // Ensure actual volume is in the range [0, 100]
+                const virtualVolume = virtualVolumes[index] * (masterValue / previousMasterVolume);
+                const actualVolume = Math.max(0, Math.min(100, virtualVolume));
         
                 player.setVolume(actualVolume);
         
                 // Update individual volume sliders
+                const individualVolumeSlider = document.querySelectorAll('.video-wrapper input[type="range"]')[index];
                 individualVolumeSlider.value = actualVolume;
         
                 // Update virtual volume
@@ -175,10 +172,10 @@
             const player = players[index];
             player.setVolume(value);
         
-            // Update the corresponding virtual volume
-            virtualVolumes[index] = value;
+            // Update the corresponding virtual volume based on the master volume
+            virtualVolumes[index] = value * (previousMasterVolume / 100);
         }
-        
+
         function shouldLoop(index) {
             // Example: Check a checkbox associated with the video
             const loopCheckbox = document.querySelectorAll('.video-wrapper input[type="checkbox"]')[index];
