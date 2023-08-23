@@ -134,15 +134,27 @@
             virtualVolumes.push(initialVolume);
         }
         
-        function setMasterVolume(value) {
-            // Iterate through all players and set their volume
+        function setMasterVolume(masterValue) {
+            // Calculate the percentage change based on the difference from the previous master volume
+            const percentageChange = masterValue / previousMasterVolume;
+        
+            // Update virtual volumes and actual volumes
             players.forEach((player, index) => {
-                player.setVolume(value);
+                const virtualVolume = virtualVolumes[index] * percentageChange;
+                const actualVolume = Math.max(0, virtualVolume); // Ensure actual volume is non-negative
+        
+                player.setVolume(actualVolume);
         
                 // Update individual volume sliders
                 const individualVolumeSlider = document.querySelectorAll('.video-wrapper input[type="range"]')[index];
-                individualVolumeSlider.value = value;
+                individualVolumeSlider.value = actualVolume;
+        
+                // Update virtual volume
+                virtualVolumes[index] = virtualVolume;
             });
+        
+            // Update the previous master volume for the next adjustment
+            previousMasterVolume = masterValue;
         }
 
         function getVideoID(url) {
@@ -191,31 +203,7 @@
                 // Add the new range to the selection, effectively highlighting the content
                 selection.addRange(range);
             };
-            
-            function setMasterVolume(masterValue) {
-                // Calculate the percentage change based on the difference from the previous master volume
-                const percentageChange = masterValue / previousMasterVolume;
-            
-                // Update virtual volumes and actual volumes
-                players.forEach((player, index) => {
-                    const virtualVolume = virtualVolumes[index] * percentageChange;
-                    const actualVolume = Math.max(0, virtualVolume); // Ensure actual volume is non-negative
-            
-                    player.setVolume(actualVolume);
-            
-                    // Update individual volume sliders
-                    const individualVolumeSlider = document.querySelectorAll('.video-wrapper input[type="range"]')[index];
-                    individualVolumeSlider.value = actualVolume;
-            
-                    // Update virtual volume
-                    virtualVolumes[index] = virtualVolume;
-                });
-            
-                // Update the previous master volume for the next adjustment
-                previousMasterVolume = masterValue;
-            }
-
-            
+                      
             // Add a keydown event listener to prevent Enter key from creating a line break
             videoTitle.addEventListener('keydown', (event) => {
                 if (event.key === 'Enter' && videoTitle.contentEditable === 'true') {
