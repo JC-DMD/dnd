@@ -89,6 +89,10 @@
                         if (event.data === YT.PlayerState.ENDED) {
                             // Code to execute when the video ends
                             console.log("Video has ended!");
+                    
+                            // Update the play/pause button text for the video that has ended
+                            const button = document.querySelectorAll('.video-wrapper button')[players.indexOf(event.target)];
+                            togglePlayPause(iframe, button, players.indexOf(event.target), event);
                         }
                     },
                 },
@@ -107,10 +111,10 @@
             return match ? match[1] : null;
         }
 
-        function togglePlayPause(iframe, button, index) {
+        function togglePlayPause(iframe, button, index, event) {
             const player = players[index];
-            const playing = player.getPlayerState() !== YT.PlayerState.PLAYING;
-            playing ? player.playVideo() : player.pauseVideo();
+            const playing = event ? event.data === YT.PlayerState.PLAYING : player.getPlayerState() === YT.PlayerState.PLAYING;
+            playing ? player.pauseVideo() : player.playVideo();
             button.textContent = playing ? 'Pause' : 'Play';
         }
 
