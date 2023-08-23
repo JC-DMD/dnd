@@ -56,6 +56,9 @@
     </div>
     <div id="videoContainer"></div>
     <script>
+        const virtualVolumes = [];
+        let previousMasterVolume = 100; 
+
         const players = []; // Array to hold YouTube player objects
 
         function addVideo() {
@@ -120,6 +123,8 @@
                         }
                     },
                 },
+                const initialVolume = 100; // or any desired initial volume
+                virtualVolumes.push(initialVolume);
             });
 
             const toolbar = createToolbar(iframe, players.length, videoTitle);
@@ -187,6 +192,30 @@
                 selection.addRange(range);
             };
             
+            function setMasterVolume(masterValue) {
+                // Calculate the percentage change based on the difference from the previous master volume
+                const percentageChange = masterValue / previousMasterVolume;
+            
+                // Update virtual volumes and actual volumes
+                players.forEach((player, index) => {
+                    const virtualVolume = virtualVolumes[index] * percentageChange;
+                    const actualVolume = Math.max(0, virtualVolume); // Ensure actual volume is non-negative
+            
+                    player.setVolume(actualVolume);
+            
+                    // Update individual volume sliders
+                    const individualVolumeSlider = document.querySelectorAll('.video-wrapper input[type="range"]')[index];
+                    individualVolumeSlider.value = actualVolume;
+            
+                    // Update virtual volume
+                    virtualVolumes[index] = virtualVolume;
+                });
+            
+                // Update the previous master volume for the next adjustment
+                previousMasterVolume = masterValue;
+            }
+
+            
             // Add a keydown event listener to prevent Enter key from creating a line break
             videoTitle.addEventListener('keydown', (event) => {
                 if (event.key === 'Enter' && videoTitle.contentEditable === 'true') {
@@ -219,7 +248,8 @@
             volumeControl.oninput = () => setVolume(iframe, volumeControl.value, index);
             toolbar.appendChild(volumeControl);
 
-
+            const virtualVolumes = []; // Array to hold virtual volume levels
+            let previousMasterVolume = 100; // Initial master volume
             
             const loopCheckbox = document.createElement('input');
             loopCheckbox.type = 'checkbox';
