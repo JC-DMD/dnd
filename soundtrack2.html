@@ -68,6 +68,12 @@
                     onReady: (event) => {
                         players.push(event.target); // Add player object to array
                     },
+                    onStateChange: (event) => {
+                        if (event.data === YT.PlayerState.ENDED) {
+                            // Code to execute when the video ends
+                            console.log("Video has ended!");
+                        }
+                    },
                 },
             });
 
