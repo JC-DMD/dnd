@@ -48,13 +48,16 @@
 <body>
     <div class="video-input">
         <input type="text" id="videoURL" placeholder="Enter YouTube video URL" onclick="this.select()">
-        <button onclick="addVideo()">Add Video</button>
+        <button id="addVideoButton" onclick="addVideo()">Add Video</button>
     </div>
     <div id="videoContainer"></div>
     <script>
         const players = []; // Array to hold YouTube player objects
 
         function addVideo() {
+            document.body.style.cursor = 'wait';
+            const addVideoButton = document.getElementById('addVideoButton');
+            addVideoButton.disabled = true;
             const videoURL = document.getElementById('videoURL').value;
             const videoTitle = `Video ${players.length + 1}`;
 
@@ -71,7 +74,11 @@
                 events: {
                     onReady: (event) => {
                         players.push(event.target); // Add player object to array
-            
+        
+                        // Reset the cursor and enable the "Add Video" button
+                        document.body.style.cursor = 'default';
+                        addVideoButton.disabled = false;
+                        
                         // Get the duration of the video
                         const duration = event.target.getDuration();
                         console.log(`Video duration: ${duration} seconds`);
