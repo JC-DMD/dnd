@@ -49,16 +49,9 @@
     <div class="video-input">
         <input type="text" id="videoURL" placeholder="Enter YouTube video URL" onclick="this.select()">
         <button id="addVideoButton" onclick="addVideo()">Add Video</button>
-        <div class="master-volume-control">
-            <label for="masterVolume">Master Volume:</label>
-            <input type="range" id="masterVolume" min="0" max="100" value="100">
-        </div>
     </div>
     <div id="videoContainer"></div>
     <script>
-        const virtualVolumes = [];
-        let previousMasterVolume = 100; 
-
         const players = []; // Array to hold YouTube player objects
 
         function addVideo() {
@@ -130,28 +123,6 @@
             videoWrapper.appendChild(iframe);
             videoWrapper.appendChild(toolbar);
             videoContainer.appendChild(videoWrapper);
-            const initialVolume = 100; 
-            virtualVolumes.push(initialVolume);
-        }
-        
-        function setMasterVolume(masterValue) {
-            // Update virtual volumes and actual volumes
-            players.forEach((player, index) => {
-                const virtualVolume = virtualVolumes[index] * (masterValue / previousMasterVolume);
-                const actualVolume = Math.max(0, Math.min(100, virtualVolume));
-        
-                player.setVolume(actualVolume);
-        
-                // Update individual volume sliders
-                const individualVolumeSlider = document.querySelectorAll('.video-wrapper input[type="range"]')[index];
-                individualVolumeSlider.value = actualVolume;
-        
-                // Update virtual volume
-                virtualVolumes[index] = virtualVolume;
-            });
-        
-            // Update the previous master volume for the next adjustment
-            previousMasterVolume = masterValue;
         }
 
         function getVideoID(url) {
@@ -171,11 +142,8 @@
         function setVolume(iframe, value, index) {
             const player = players[index];
             player.setVolume(value);
-        
-            // Update the corresponding virtual volume based on the master volume
-            virtualVolumes[index] = value * (previousMasterVolume / 100);
         }
-
+        
         function shouldLoop(index) {
             // Example: Check a checkbox associated with the video
             const loopCheckbox = document.querySelectorAll('.video-wrapper input[type="checkbox"]')[index];
@@ -203,7 +171,7 @@
                 // Add the new range to the selection, effectively highlighting the content
                 selection.addRange(range);
             };
-                      
+            
             // Add a keydown event listener to prevent Enter key from creating a line break
             videoTitle.addEventListener('keydown', (event) => {
                 if (event.key === 'Enter' && videoTitle.contentEditable === 'true') {
@@ -235,7 +203,7 @@
             volumeControl.value = '100';
             volumeControl.oninput = () => setVolume(iframe, volumeControl.value, index);
             toolbar.appendChild(volumeControl);
-            
+
             const loopCheckbox = document.createElement('input');
             loopCheckbox.type = 'checkbox';
             toolbar.appendChild(loopCheckbox);
@@ -246,10 +214,6 @@
 
             return toolbar;
         }
-        
-        document.getElementById('masterVolume').addEventListener('input', (event) => {
-            setMasterVolume(event.target.value);
-        });
     </script>
     <script src="https://www.youtube.com/iframe_api"></script>
 </body>
