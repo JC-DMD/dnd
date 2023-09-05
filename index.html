@@ -12,8 +12,6 @@
             padding: 0;
             height: 100%;
             width: 100%;
-            cursor: pointer; url('/dnd/cursors/GLOVE%20CURSOR%202.cur'), auto;
-            cursor: text; url('/dnd/cursors/GloveWrite.cur'), auto;
         }
         embed {
             display: block;
@@ -444,6 +442,27 @@ function jumpToPage(pageNumber) {
   }
 }
 
+function setCustomCursors() {
+    document.querySelectorAll('*').forEach((element) => {
+        const computedStyle = window.getComputedStyle(element);
+        switch (computedStyle.cursor) {
+            case 'pointer':
+                element.style.cursor = "url('/dnd/cursors/GLOVE%20CURSOR%202.cur'), auto";
+                break;
+            case 'text':
+                element.style.cursor = "url('/dnd/cursors/GloveWrite.cur'), auto";
+                break;
+            case 'grab':
+                element.style.cursor = "url('/dnd/cursors/grab.cur'), auto";
+                break;
+            // add more cases if needed
+        }
+    });
+}
+
+window.addEventListener('DOMContentLoaded', (event) => {
+    setCustomCursors();
+});
 </script>
 </body>
 </html>
