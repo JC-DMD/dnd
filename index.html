@@ -12,6 +12,7 @@
             padding: 0;
             height: 100%;
             width: 100%;
+            cursor: url('/dnd/cursors//dnd/cursors/GLOVE%20CURSOR%202.cur'), auto";
         }
         embed {
             display: block;
@@ -453,9 +454,19 @@ function setCustomCursors() {
                 element.style.cursor = "url('/dnd/cursors/GloveWrite.cur'), auto";
                 break;
             case 'grab':
-                element.style.cursor = "url('/dnd/cursors/grab.cur'), auto";
+                element.style.cursor = "url('/dnd/cursors/grabber.cur'), auto";
+                
+                // Change cursor on mousedown
+                element.addEventListener('mousedown', () => {
+                    element.style.cursor = "url('/dnd/cursors/grab.cur'), auto";
+                });
+                
+                // Reset cursor on mouseup
+                element.addEventListener('mouseup', () => {
+                    element.style.cursor = "url('/dnd/cursors/grabber.cur'), auto";
+                });
+                
                 break;
-            // add more cases if needed
         }
     });
 }
