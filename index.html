@@ -451,14 +451,6 @@ function setCustomCursors() {
         switch (computedStyle.cursor) {
             case 'pointer':
                 element.style.cursor = "url('/dnd/cursors/GLOVE%20CURSOR%202.cur'), auto";
-                // Change cursor on mousedown
-                element.addEventListener('mousedown', () => {
-                    element.style.cursor = "url('/dnd/cursors/GLOVE%20CURSOR.cur'), auto";
-                });
-                // Reset cursor on mouseup
-                element.addEventListener('mouseup', () => {
-                    element.style.cursor = "url('/dnd/cursors/GLOVE%20CURSOR%202.cur'), auto";
-                });
                 break;
             case 'text':
                 element.style.cursor = "url('/dnd/cursors/GloveWrite.cur'), auto";
