@@ -19,8 +19,8 @@
             margin-bottom: 10px;
         }
         .video {
-            width: 0;
-            height: 0;
+            width: 1px;
+            height: 1px;
             display: none;
         }
         .toolbar {
@@ -115,6 +115,9 @@
                             button.textContent = 'Play';
                         }
                     },
+                    onError: (event) => {
+                        console.error('YouTube Player Error:', event.data);
+                    }
                 },
             });
 
